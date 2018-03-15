@@ -1,7 +1,23 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: dmitrij
- * Date: 11.03.2018
- * Time: 17:06
- */
+@extends('layouts.app')
+
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Forum threads</div>
+                    <div class="card-body">
+                        @foreach($threads as $thread)
+                            <article>
+                                <h4>
+                                    <a href="{{$thread->path()}}">{{$thread->title}}</a>
+                                </h4>
+                                <div class="body">{{$thread->body}}</div>
+                            </article>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
