@@ -24,9 +24,11 @@ class ReadThreadsTest extends TestCase
         $this->thread = factory('App\Thread')->create();
     }
 
+
     public function test_a_user_can_view_all_threads()
     {
         $this->get('/threads')
+
             ->assertSee($this->thread->title);
 
 
@@ -40,6 +42,7 @@ class ReadThreadsTest extends TestCase
 
     public function test_a_user_can_read_replies_that_are_associated_with_a_thread()
     {
+
         $reply = factory('App\Reply')->create(['thread_id' => $this->thread->id]);
 
         $this->get($this->thread->path())
@@ -50,7 +53,9 @@ class ReadThreadsTest extends TestCase
     {
         $channel = create('App\Channel');
 
+
         $threadInChannel = create('App\Thread', ['channel_id' => $channel->id]);
+
 
         $threadNoChannel = create('App\Thread');
 
@@ -61,6 +66,7 @@ class ReadThreadsTest extends TestCase
 
     public function test_a_user_can_filter_threads_by_any_username()
     {
+
         $this->signIn(create('App\User', ['name' => 'admin']));
 
         $thread = create('App\Thread', ['user_id' => \Auth::id()]);
@@ -71,6 +77,7 @@ class ReadThreadsTest extends TestCase
             ->assertSee($thread->title)
             ->assertDontSee($other_thread->title);
     }
+
 
     public function test_a_user_can_filter_threads_by_popularity()
     {
@@ -88,4 +95,5 @@ class ReadThreadsTest extends TestCase
         $this->assertEquals([3, 2, 0], array_column($response, 'replies_count'));
 
     }
+
 }

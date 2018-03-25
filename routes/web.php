@@ -25,6 +25,7 @@ Route::get('/threads','ThreadsController@index');
 Route::post('/threads','ThreadsController@store');
 Route::get('/threads/create','ThreadsController@create');
 
+
 Route::get('/threads/{channel}','ThreadsController@index');
 Route::post('/thread/{thread}/replies','RepliesController@store');
 Route::get('/threads/{channel}/{thread}','ThreadsController@show');
@@ -34,6 +35,7 @@ Route::post('/replies/{reply}/favorites','FavoritesController@store')->name('rep
 Route::get('/profiles/{user}','ProfilesController@show')->name('profile');
 
 Route::delete('/replies/{reply}','RepliesController@destroy');
+
 
 
 

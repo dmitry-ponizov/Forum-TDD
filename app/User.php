@@ -27,6 +27,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+
     public function getRouteKey()
     {
         return 'name';
@@ -41,4 +42,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(Activity::class);
     }
+
 }

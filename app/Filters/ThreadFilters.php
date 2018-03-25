@@ -4,6 +4,7 @@ namespace App\Filters;
 
 use App\User;
 
+
 class  ThreadFilters extends Filters
 {
     protected $filters = ['by', 'popular'];
@@ -23,4 +24,5 @@ class  ThreadFilters extends Filters
         $this->builder->getQuery()->orders = [];
         return $this->builder->orderBy('replies_count', 'desc');
     }
+
 }

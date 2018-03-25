@@ -11,15 +11,19 @@ class ThreadsController extends Controller
 {
     public function __construct()
     {
+
         $this->middleware('auth')->only(['store', 'create', 'delete']);
+
     }
 
     public function index(Channel $channel, ThreadFilters $filters)
     {
         $threads = $this->getThreads($channel, $filters);
+
         if (request()->wantsJson()) {
             return $threads;
         }
+
 
         return view('threads.index', compact('threads'));
     }
@@ -55,8 +59,10 @@ class ThreadsController extends Controller
             'user_id' => auth()->id()
         ]);
 
+
         return redirect($thread->path())
             ->with('flash','Your thread has been published');
+
     }
 
     /**
@@ -65,8 +71,10 @@ class ThreadsController extends Controller
      * @param  \App\Thread $thread
      * @return \Illuminate\Http\Response
      */
+
     public function show($channel, Thread $thread)
     {
+
 
         return view('threads.show', [
             'thread' => $thread,
@@ -103,6 +111,7 @@ class ThreadsController extends Controller
      * @param  \App\Thread $thread
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($channel, Thread $thread)
     {
 //        $this->authorize('update', $thread);
@@ -113,6 +122,7 @@ class ThreadsController extends Controller
             return response([], 204);
         }
         return redirect('/threads');
+
 
     }
 
@@ -128,8 +138,10 @@ class ThreadsController extends Controller
         if ($channel->exists) {
             $threads->where('channel_id', $channel->id);
         }
+
         return $threads->get();
     }
+
 
 
 }

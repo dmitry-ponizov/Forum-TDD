@@ -15,10 +15,12 @@
             </div>
         </div>
 
+
     </div>
     <div class="card-body">
         {{$reply->body}}
     </div>
+
     @can('update',$reply)
         <div class="card-footer">
             <form method="POST" action="/replies/{{ $reply->id }}">
@@ -29,4 +31,5 @@
             </form>
         </div>
     @endcan
+
 </div>

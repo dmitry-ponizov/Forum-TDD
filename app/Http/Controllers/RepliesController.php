@@ -48,7 +48,9 @@ class RepliesController extends Controller
             'body'=>request('body'),
             'user_id'=>\Auth::id(),
         ]);
+
         return back()->with('flash', 'Your reply has been left');
+
     }
 
     /**
@@ -93,6 +95,7 @@ class RepliesController extends Controller
      */
     public function destroy(Reply $reply)
     {
+
         $reply->delete();
 
         if($reply->user_id !== auth()->id()){
@@ -100,5 +103,6 @@ class RepliesController extends Controller
         }
 
        return back();
+
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
 {
+
     use Favoritable,RecordsActivity;
 
     protected $guarded = [];
@@ -27,5 +28,6 @@ class Reply extends Model
     {
         return $this->thread->path() . "#reply-{$this->id}";
     }
+
 
 }

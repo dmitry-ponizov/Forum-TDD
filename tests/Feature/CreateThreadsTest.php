@@ -2,12 +2,16 @@
 
 namespace Tests\Feature;
 
+
 use App\Activity;
+
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\User;
+
+
 
 class CreateThreadsTest extends TestCase
 {
@@ -71,6 +75,7 @@ class CreateThreadsTest extends TestCase
        return $this->post('/threads',$thread->toArray());
     }
 
+
     public function test_a_thread_can_be_deleted()
     {
          $this->signIn();
@@ -102,4 +107,5 @@ class CreateThreadsTest extends TestCase
 
         $this->delete($thread->path())->assertStatus(403);
     }
+
 }

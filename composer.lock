@@ -4,7 +4,9 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+
     "content-hash": "ac9881020a0469515bec3107b7d33693",
+
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2225,6 +2227,7 @@
     ],
     "packages-dev": [
         {
+
             "name": "barryvdh/laravel-debugbar",
             "version": "v3.1.4",
             "source": {
@@ -2293,6 +2296,7 @@
             "time": "2018-03-06T08:35:31+00:00"
         },
         {
+
             "name": "doctrine/instantiator",
             "version": "1.1.0",
             "source": {
@@ -2506,6 +2510,7 @@
             "time": "2016-01-20T08:20:44+00:00"
         },
         {
+
             "name": "maximebf/debugbar",
             "version": "v1.15.0",
             "source": {
@@ -2567,6 +2572,7 @@
             "time": "2017-12-15T11:13:46+00:00"
         },
         {
+
             "name": "mockery/mockery",
             "version": "1.0",
             "source": {
