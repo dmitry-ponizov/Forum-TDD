@@ -12,7 +12,7 @@ class RepliesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth',['except'=>'index']);
     }
 
     /**
@@ -20,9 +20,9 @@ class RepliesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($channelId,Thread $thread)
     {
-        //
+        return $thread->replies()->paginate(20);
     }
 
     /**
@@ -44,14 +44,19 @@ class RepliesController extends Controller
     public function store($channelId,Thread $thread)
     {
         $this->validate(request(),['body'=>'required ']);
-        $thread->addReply([
+
+       $reply = $thread->addReply([
             'body'=>request('body'),
             'user_id'=>\Auth::id(),
         ]);
+        if(request()->expectsJson()){
+            return $reply->load('owner');
+        }
 
         return back()->with('flash', 'Your reply has been left');
 
     }
+    
 
     /**
      * Display the specified resource.
@@ -82,9 +87,9 @@ class RepliesController extends Controller
      * @param  \App\Reply  $reply
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Reply $reply)
+    public function update(Reply $reply)
     {
-        //
+        $reply->update(request(['body']));
     }
 
     /**
@@ -100,6 +105,10 @@ class RepliesController extends Controller
 
         if($reply->user_id !== auth()->id()){
             return response([],403);
+        }
+
+        if(request()->expectsJson()){
+            return response(['status'=>'Reply deleted!'] );
         }
 
        return back();

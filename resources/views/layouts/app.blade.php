@@ -12,7 +12,15 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
+    <script>
+        window.App = {!!json_encode([
+            'csrf_token'=>csrf_token(),
+            'user'=> Auth::user(),
+            'signedIn'=> Auth::check()
+        ]) !!};
+    </script>
     <style>
         body {
             padding-bottom: 100px;
@@ -25,6 +33,12 @@
 
         .flex {
             flex: 1
+        }
+        .mr-1{
+            margin-right: 1em!important;
+        }
+        [v-cloak]{
+            display: none;
         }
     </style>
 </head>
