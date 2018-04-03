@@ -2,8 +2,11 @@
 
 namespace Tests\Unit;
 
+use App\Notifications\ThreadWasUpdated;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Notifications\Notification;
 use Tests\TestCase;
+
 
 
 class ThreadTest extends TestCase
@@ -107,6 +110,8 @@ class ThreadTest extends TestCase
 
     }
 
-
-
+    /**
+     *
+     */
+ 
 }

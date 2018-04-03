@@ -41319,7 +41319,7 @@ module.exports = Vue;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(139);
-module.exports = __webpack_require__(192);
+module.exports = __webpack_require__(195);
 
 
 /***/ }),
@@ -41345,7 +41345,8 @@ window.Vue = __webpack_require__(14);
 
 Vue.component('flash', __webpack_require__(164));
 Vue.component('thread-view', __webpack_require__(172));
-Vue.component('paginator', __webpack_require__(189));
+Vue.component('paginator', __webpack_require__(192));
+Vue.component('user-notifications', __webpack_require__(199));
 
 var app = new Vue({
   el: '#app'
@@ -64083,7 +64084,7 @@ var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(173)
 /* template */
-var __vue_template__ = __webpack_require__(188)
+var __vue_template__ = __webpack_require__(191)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -64129,7 +64130,7 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Replies_vue__ = __webpack_require__(174);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Replies_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Replies_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_SubscribeButton_vue__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_SubscribeButton_vue__ = __webpack_require__(188);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_SubscribeButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_SubscribeButton_vue__);
 //
 //
@@ -65186,6 +65187,103 @@ if (false) {
 /* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(189)
+/* template */
+var __vue_template__ = __webpack_require__(190)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/SubscribeButton.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d2552396", Component.options)
+  } else {
+    hotAPI.reload("data-v-d2552396", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 189 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['active'],
+    computed: {
+        classes: function classes() {
+            return ['btn', this.active ? 'btn-primary' : 'btn-info'];
+        }
+    },
+    methods: {
+        subscribe: function subscribe() {
+
+            axios[this.active ? 'delete' : 'post'](location.pathname + '/subscriptions');
+
+            this.active = !this.active;
+        }
+    }
+});
+
+/***/ }),
+/* 190 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("button", { class: _vm.classes, on: { click: _vm.subscribe } }, [
+    _vm._v("Subscribe")
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-d2552396", module.exports)
+  }
+}
+
+/***/ }),
+/* 191 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -65203,15 +65301,15 @@ if (false) {
 }
 
 /***/ }),
-/* 189 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(190)
+var __vue_script__ = __webpack_require__(193)
 /* template */
-var __vue_template__ = __webpack_require__(191)
+var __vue_template__ = __webpack_require__(194)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -65250,7 +65348,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 190 */
+/* 193 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -65309,7 +65407,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 191 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -65401,24 +65499,24 @@ if (false) {
 }
 
 /***/ }),
-/* 192 */
+/* 195 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 193 */,
-/* 194 */,
-/* 195 */,
-/* 196 */
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(197)
+var __vue_script__ = __webpack_require__(200)
 /* template */
-var __vue_template__ = __webpack_require__(198)
+var __vue_template__ = __webpack_require__(201)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -65435,7 +65533,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/SubscribeButton.vue"
+Component.options.__file = "resources/assets/js/components/UserNotifications.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -65444,9 +65542,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-d2552396", Component.options)
+    hotAPI.createRecord("data-v-c0045994", Component.options)
   } else {
-    hotAPI.reload("data-v-d2552396", Component.options)
+    hotAPI.reload("data-v-c0045994", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -65457,7 +65555,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 197 */
+/* 200 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -65466,43 +65564,97 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['active'],
-    computed: {
-        classes: function classes() {
-            return ['btn', this.active ? 'btn-primary' : 'btn-info'];
-        }
+    data: function data() {
+        return {
+            notifications: false
+        };
     },
+    created: function created() {
+        var _this = this;
+
+        axios.get('/profiles/' + window.App.user.name + '/notifications').then(function (response) {
+            _this.notifications = response.data;
+        });
+    },
+
     methods: {
-        subscribe: function subscribe() {
-
-            axios[this.active ? 'delete' : 'post'](location.pathname + '/subscriptions');
-
-            this.active = !this.active;
+        markAsRead: function markAsRead(notification) {
+            axios.delete('/profiles/' + window.App.user.id + '/notifications/' + notification.id);
         }
     }
 });
 
 /***/ }),
-/* 198 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("button", { class: _vm.classes, on: { click: _vm.subscribe } }, [
-    _vm._v("Subscribe")
-  ])
+  return _vm.notifications.length
+    ? _c("li", { staticClass: "nav-item dropdown" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "dropdown-menu",
+            attrs: { "aria-labelledby": "navbarDropdown" }
+          },
+          _vm._l(_vm.notifications, function(notification) {
+            return _c(
+              "a",
+              {
+                staticClass: "dropdown-item",
+                attrs: { href: notification.data.link },
+                on: {
+                  click: function($event) {
+                    _vm.markAsRead(notification)
+                  }
+                }
+              },
+              [_vm._v(_vm._s(notification.data.message))]
+            )
+          })
+        )
+      ])
+    : _vm._e()
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "nav-link dropdown-toggle",
+        attrs: { href: "", "data-toggle": "dropdown" }
+      },
+      [_c("i", { staticClass: "fa fa-bell", attrs: { "aria-hidden": "true" } })]
+    )
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-d2552396", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-c0045994", module.exports)
   }
 }
 
