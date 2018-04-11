@@ -8,9 +8,11 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="level">
-                            <span class="flex">
+                                <img src="{{ asset($thread->creator->avatar_path) }}" width="25px" height="25px"
+                                     style="border-radius: 50%; margin-right: 10px ;" alt="">
+                                <span class="flex">
                                  <a href="/profiles/{{$thread->creator->name }}"> {{$thread->creator->name}}</a> posted:
-                                {{$thread->title }}
+                                    {{$thread->title }}
                             </span>
                                 @can('update',$thread)
                                     <form action="{{$thread->path()}}" method="POST">
@@ -41,7 +43,8 @@
                                 <span v-text="repliesCount"></span> {{ str_plural('comment',$thread->replies_count) }}
                             </p>
                             <p>
-                                <subscribe-button :active="{{ json_encode($thread->isSubscribedTo) }}"></subscribe-button>
+                                <subscribe-button
+                                        :active="{{ json_encode($thread->isSubscribedTo) }}"></subscribe-button>
                             </p>
 
                         </div>

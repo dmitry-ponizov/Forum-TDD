@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Forms\CreatePostForm;
+use App\Notifications\YouWereMentioned;
 use App\Reply;
 use App\Thread;
 use Illuminate\Http\Request;
@@ -38,28 +40,19 @@ class RepliesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param $channelId
+     * @param Thread $thread
+     * @param CreatePostForm $form
      * @return \Illuminate\Http\Response
      */
-    public function store($channelId, Thread $thread)
+    public function store($channelId, Thread $thread, CreatePostForm $form)
     {
-        try {
-            $this->validate(request(), ['body' => 'required|spamfree']);
+        return $thread->addReply([
+            'body' => request('body'),
+            'user_id' => auth()->id(),
+        ])->load('owner');
 
-            $lastReply = Reply::where('user_id',auth()->id()->latest()->first());
 
-            $reply = $thread->addReply([
-                'body' => request('body'),
-                'user_id' => auth()->id(),
-            ]);
-
-        } catch (\Exception $e) {
-
-            return response('Sorry your reply could be saved at this time',422);
-
-        }
-
-        return $reply->load('owner');
     }
 
 
@@ -89,19 +82,18 @@ class RepliesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Reply $reply
-
      * @return void
      */
     public function update(Reply $reply)
     {
-        try{
+        try {
             $this->validate(request(), ['body' => 'required|spamfree']);
 
             $reply->update(request(['body']));
 
         } catch (\Exception $e) {
 
-            return response('Sorry your reply could be saved at this time',422);
+            return response('Sorry your reply could be saved at this time', 422);
 
         }
 

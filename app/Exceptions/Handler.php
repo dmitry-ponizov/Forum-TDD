@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Dotenv\Exception\ValidationException;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -50,6 +51,16 @@ class Handler extends ExceptionHandler
     {
 //        if(app()->environment() === 'testing') throw  $exception;
 
+        if($exception instanceof ValidationException){
+            if($request->expectsJson()){
+                return response('Sorry validation failed!',422);
+            }
+
+        }
+
+        if($exception instanceof ThrottleException){
+            return response('Your are posting too frequently!',429);
+        }
         return parent::render($request, $exception);
     }
 }

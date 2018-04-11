@@ -45,7 +45,7 @@ class NotificationsTest extends TestCase
             'body' => 'Some reply here'
         ]);
 
-        $this->assertCount(1, auth()->user()->fresh()->notifications);
+        $this->assertCount(2, auth()->user()->fresh()->notifications);
     }
 
     public function test_a_user_can_clear_a_notification()

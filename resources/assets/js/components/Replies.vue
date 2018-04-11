@@ -26,8 +26,11 @@
         },
         created(){
             this.fetch();
+
+
         },
         methods:{
+
             fetch(page){
                 axios.get(this.url(page))
                     .then(this.refresh);

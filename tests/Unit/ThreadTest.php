@@ -28,6 +28,7 @@ class ThreadTest extends TestCase
         $this->thread = factory('App\Thread')->create();
     }
 
+
     public function test_a_thread_has_replies()
     {
 

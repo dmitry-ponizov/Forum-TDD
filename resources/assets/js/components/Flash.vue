@@ -21,6 +21,8 @@
             }
 
             window.events.$on('flash',data => this.flash(data));
+
+
         },
         methods:{
             flash(data){

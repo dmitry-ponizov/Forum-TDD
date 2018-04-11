@@ -46,6 +46,8 @@ Route::delete('/threads/{channel}/{thread}/subscriptions','ThreadSubscriptionsCo
 Route::delete('/replies/{reply}','RepliesController@destroy');
 Route::patch('/replies/{reply}','RepliesController@update');
 
+Route::post('api/users/{user}/avatar','Api\UserAvatarController@store')->middleware('auth')->name('avatar');
+
 
 
 

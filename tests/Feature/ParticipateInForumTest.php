@@ -45,19 +45,7 @@ class ParticipateInForumTest extends TestCase
         $this->assertEquals(1,$thread->fresh()->replies_count);
     }
 
-    public function test_a_reply_requires_a_body()
 
-    {
-        $this->withExceptionHandling()->signIn();
-
-        $thread = factory('App\Thread')->create();
-
-
-        $reply = factory('App\Reply', ['body' => null])->make();
-
-        $this->post($thread->path() . '/replies', $reply->toArray())
-            ->assertSessionHasErrors('body');
-    }
 
     public function test_unauthorized_user_can_not_delete_thread()
     {
@@ -86,19 +74,7 @@ class ParticipateInForumTest extends TestCase
         $this->assertEquals(0,$reply->thread->fresh()->replies_count);
     }
 
-    function test_authorized_user_can_update_replies()
-    {
-        $this->signIn();
 
-        $reply = create('App\Reply', ['user_id' => auth()->id()]);
-
-        $updatedReply = 'You, been changed fool!';
-
-        $this->patch("/replies/{$reply->id}",['body'=> $updatedReply]);
-
-        $this->assertDatabaseHas('replies',['id'=>$reply->id,'body'=>$updatedReply]);
-
-    }
 
     function test_unauthorized_users_cannot_update_replies()
     {
@@ -111,23 +87,9 @@ class ParticipateInForumTest extends TestCase
 
         $this->signIn()
             ->patch("/replies/{$reply->id}")
-            ->assertStatus(200);
+            ->assertStatus(422);
     }
 
-    public function test_replies_that_contain_spam_may_not_be_created()
-    {
-        $this->signIn();
 
-        $thread = create('App\Thread');
-
-        $reply = make('App\Reply',[
-            'body' => 'Yahoo customer support'
-        ]);
-
-        $this->expectException(\Exception::class);
-
-        $this->post($thread->path() . '/replies',$reply->toArray());
-
-    }
 
 }
