@@ -1,4 +1,4 @@
-<template>
+ <template>
     <div :id="'reply-'+ id " class="card" style="margin-top: 20px;">
         <div class="card-header">
             <div class="level">
@@ -61,6 +61,8 @@
                     body: this.body
                 }).then(response => {
 
+                }).catch(error=>{
+                    flash(error.response.data,'danger');
                 });
 
                 this.editing = false;

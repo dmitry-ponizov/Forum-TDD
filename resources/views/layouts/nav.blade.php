@@ -35,6 +35,7 @@
                         Channels
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
                         @foreach($channels as $channel)
                             <li class="dropdown-item">
                                 <a class="dropdown-item" href="/threads/{{ $channel->slug }}">{{ $channel->name }}</a>

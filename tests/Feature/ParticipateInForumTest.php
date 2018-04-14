@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Inspections\Spam;
 
 class ParticipateInForumTest extends TestCase
 {
@@ -112,5 +114,20 @@ class ParticipateInForumTest extends TestCase
             ->assertStatus(200);
     }
 
+    public function test_replies_that_contain_spam_may_not_be_created()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread');
+
+        $reply = make('App\Reply',[
+            'body' => 'Yahoo customer support'
+        ]);
+
+        $this->expectException(\Exception::class);
+
+        $this->post($thread->path() . '/replies',$reply->toArray());
+
+    }
 
 }
