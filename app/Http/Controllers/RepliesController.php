@@ -46,6 +46,8 @@ class RepliesController extends Controller
         try {
             $this->validate(request(), ['body' => 'required|spamfree']);
 
+            $lastReply = Reply::where('user_id',auth()->id()->latest()->first());
+
             $reply = $thread->addReply([
                 'body' => request('body'),
                 'user_id' => auth()->id(),

@@ -19,5 +19,7 @@ class ReplyPolicy
     {
         return $reply->user_id === $user->id;
     }
+
+
 }
 
