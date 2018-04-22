@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','avatar_path'
+        'name', 'email', 'password','avatar_path','confirmation_token','confirmed'
     ];
 
     /**
@@ -25,6 +25,10 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token','email',
+    ];
+
+    protected $casts = [
+        'confirmed'=> 'boolean'
     ];
 
 
@@ -59,4 +63,10 @@ class User extends Authenticatable
         return $avatar ? '/storage/'. $avatar : '/images/avatars/default.gif';
     }
 
+    public function confirm()
+    {
+        $this->confirmed = true;
+        $this->confirmation_token = null;
+        $this->save();
+    }
 }

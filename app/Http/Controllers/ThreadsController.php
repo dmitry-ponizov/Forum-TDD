@@ -6,8 +6,11 @@ use App\Channel;
 use App\Inspections\Spam;
 use App\Thread;
 use App\Filters\ThreadFilters;
+use App\Trending;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+
+
 
 class ThreadsController extends Controller
 {
@@ -18,7 +21,7 @@ class ThreadsController extends Controller
 
     }
 
-    public function index(Channel $channel, ThreadFilters $filters)
+    public function index(Channel $channel, ThreadFilters $filters,Trending $trending)
     {
         $threads = $this->getThreads($channel, $filters);
 
@@ -26,8 +29,10 @@ class ThreadsController extends Controller
             return $threads;
         }
 
-
-        return view('threads.index', compact('threads'));
+        return view('threads.index', [
+            'threads'=>$threads,
+            'trending'=> $trending->get()
+        ]);
     }
 
     /**
@@ -49,6 +54,8 @@ class ThreadsController extends Controller
      */
     public function store(Request $request,Spam $spam)
     {
+
+
         $this->validate($request, [
             'title' => 'required|spamfree',
             'body' => 'required|spamfree',
@@ -60,7 +67,8 @@ class ThreadsController extends Controller
             'title' => request('title'),
             'body' => request('body'),
             'channel_id' => request('channel_id'),
-            'user_id' => auth()->id()
+            'user_id' => auth()->id(),
+            'slug'=>str_slug(request('title'))
         ]);
 
 
@@ -76,12 +84,16 @@ class ThreadsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function show($channel, Thread $thread)
+    public function show($channel, Thread $thread,Trending $trending)
     {
 
         $key = sprintf("users.%s.visits.%s",auth()->id(),$thread->id);
 
         cache()->forever($key,Carbon::now());
+
+        $trending->push($thread);
+
+        $thread->increment('visits');
 
         return view('threads.show', compact('thread'));
     }

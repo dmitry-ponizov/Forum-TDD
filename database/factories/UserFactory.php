@@ -19,10 +19,13 @@ $factory->define(App\User::class, function (Faker $faker) {
         'email' => $faker->unique()->safeEmail,
         'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
         'remember_token' => str_random(10),
+        'confirmed' => false,
+        'confirmation_token'=>str_random(25)
     ];
 });
 
 $factory->define(App\Thread::class,function ($faker){
+    $title = $faker->sentence;
         return [
             'user_id'=>function(){
                 return factory('App\User')->create()->id;
@@ -30,8 +33,11 @@ $factory->define(App\Thread::class,function ($faker){
             'channel_id'=>function(){
                 return factory('App\Channel')->create()->id;
             },
-            'title'=>$faker->sentence,
-            'body'=>$faker->paragraph
+            'title'=>$title,
+            'body'=>$faker->paragraph,
+            'visits'=> 0,
+            'slug'=> str_slug($title)
+
         ];
 });
 $factory->define(App\Channel ::class,function ($faker){

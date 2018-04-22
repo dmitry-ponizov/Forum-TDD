@@ -7,6 +7,7 @@ use App\Events\ThreadReceivedNewReply;
 use Illuminate\Database\Eloquent\Model;
 use App\Notifications\ThreadWasUpdated;
 
+
 /**
  * @property mixed subscriptions
  */
@@ -35,7 +36,7 @@ class Thread extends Model
 
     public function path()
     {
-        return "/threads/{$this->channel->slug}/$this->id";
+        return "/threads/{$this->channel->slug}/$this->slug";
     }
 
 
@@ -109,4 +110,26 @@ class Thread extends Model
 
         return $this->updated_at > cache($key);
     }
+
+    public function visits()
+    {
+        return new Visits($this);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function setSlugAttribute($value)
+    {
+        $slug = str_slug($value);
+        
+        while(static::whereSlug($slug)->exists()){
+            $slug = "{$slug}-" . time();
+        }
+        $this->attributes['slug'] = $slug;
+    }
+
+
 }
