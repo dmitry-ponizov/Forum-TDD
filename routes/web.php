@@ -50,6 +50,8 @@ Route::post('api/users/{user}/avatar','Api\UserAvatarController@store')->middlew
 
 Route::get('/register/confirm','Api\RegisterConfirmationController@index');
 
+Route::post('/replies/{reply}/best','BestRepliesController@store')->name('best-replies.store');
+
 
 
 

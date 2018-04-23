@@ -124,12 +124,17 @@ class Thread extends Model
     public function setSlugAttribute($value)
     {
         $slug = str_slug($value);
-        
+
         while(static::whereSlug($slug)->exists()){
             $slug = "{$slug}-" . time();
         }
         $this->attributes['slug'] = $slug;
     }
+    public function setBestReply(Reply $reply)
+    {
+        $this->best_reply_id = $reply->id;
 
+        $this->save();
+    }
 
 }
