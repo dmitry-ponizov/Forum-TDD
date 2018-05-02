@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Channel;
 use App\Inspections\Spam;
+use App\Rules\Recaptcha;
 use App\Thread;
 use App\Filters\ThreadFilters;
 use App\Trending;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
 
 
 class ThreadsController extends Controller
@@ -21,7 +21,7 @@ class ThreadsController extends Controller
 
     }
 
-    public function index(Channel $channel, ThreadFilters $filters,Trending $trending)
+    public function index(Channel $channel, ThreadFilters $filters, Trending $trending)
     {
         $threads = $this->getThreads($channel, $filters);
 
@@ -30,8 +30,8 @@ class ThreadsController extends Controller
         }
 
         return view('threads.index', [
-            'threads'=>$threads,
-            'trending'=> $trending->get()
+            'threads' => $threads,
+            'trending' => $trending->get()
         ]);
     }
 
@@ -49,17 +49,17 @@ class ThreadsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param Spam $spam
+     * @param Recaptcha $recaptcha
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,Spam $spam)
+    public function store(Recaptcha $recaptcha)
     {
 
-
-        $this->validate($request, [
+        request()->validate([
             'title' => 'required|spamfree',
             'body' => 'required|spamfree',
-            'channel_id' => 'required|exists:channels,id'
+            'channel_id' => 'required|exists:channels,id',
+            'g-recaptcha-response' => [$recaptcha]
         ]);
 
 
@@ -68,12 +68,12 @@ class ThreadsController extends Controller
             'body' => request('body'),
             'channel_id' => request('channel_id'),
             'user_id' => auth()->id(),
-            'slug'=>str_slug(request('title'))
+            'slug' => str_slug(request('title'))
         ]);
 
 
         return redirect($thread->path())
-            ->with('flash','Your thread has been published');
+            ->with('flash', 'Your thread has been published');
 
     }
 
@@ -84,12 +84,12 @@ class ThreadsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function show($channel, Thread $thread,Trending $trending)
+    public function show($channel, Thread $thread, Trending $trending)
     {
 
-        $key = sprintf("users.%s.visits.%s",auth()->id(),$thread->id);
+        $key = sprintf("users.%s.visits.%s", auth()->id(), $thread->id);
 
-        cache()->forever($key,Carbon::now());
+        cache()->forever($key, Carbon::now());
 
         $trending->push($thread);
 
@@ -114,11 +114,17 @@ class ThreadsController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Thread $thread
-     * @return \Illuminate\Http\Response
+     * @return bool
      */
-    public function update(Request $request, Thread $thread)
+    public function update($channel, Thread $thread)
     {
-        //
+
+        $thread->update(request()->validate([
+            'title' => 'required|spamfree',
+            'body' => 'required|spamfree',
+        ]));
+
+        return $thread;
     }
 
     /**
@@ -157,7 +163,6 @@ class ThreadsController extends Controller
 
         return $threads->paginate(20);
     }
-
 
 
 }

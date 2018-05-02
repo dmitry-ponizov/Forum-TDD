@@ -6,6 +6,7 @@ use App\Events\ThreadHasNewReply;
 use App\Events\ThreadReceivedNewReply;
 use Illuminate\Database\Eloquent\Model;
 use App\Notifications\ThreadWasUpdated;
+use Laravel\Scout\Searchable;
 
 
 /**
@@ -14,14 +15,17 @@ use App\Notifications\ThreadWasUpdated;
 class Thread extends Model
 {
 
-
-    use RecordsActivity;
+    use RecordsActivity,Searchable;
 
     protected $guarded = [];
 
     protected $appends = ['isSubscribedTo'];
 
     protected $with = ['creator', 'channel'];
+
+    protected $casts = [
+        'locked' => 'boolean'
+    ];
 
     protected static function boot()
     {
@@ -52,6 +56,7 @@ class Thread extends Model
 
     public function addReply($reply)
     {
+
         $reply = $this->replies()->create($reply);
 
         event(new ThreadHasNewReply($this, $reply));
@@ -136,5 +141,7 @@ class Thread extends Model
 
         $this->save();
     }
+
+
 
 }

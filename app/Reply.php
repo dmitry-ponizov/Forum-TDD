@@ -12,7 +12,7 @@ class Reply extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['favoritesCount','isFavorited'];
+    protected $appends = ['favoritesCount','isFavorited','isBest'];
 
     protected $with = ['owner','favorites'];
 
@@ -25,7 +25,11 @@ class Reply extends Model
             $reply->thread->increment('replies_count');
         });
 
+
         static ::deleted(function($reply){
+            if($reply->isBest()){
+                $reply->thread->update(['best_reply_id' => null]);
+            }
             $reply->thread->decrement('replies_count');
         });
     }
@@ -68,10 +72,13 @@ class Reply extends Model
 
     public function isBest()
     {
-        return $this->thread->best_replu_id == $this->id;
+        return $this->thread->best_reply_id == $this->id;
     }
 
 
-
+    public function getIsBestAttribute()
+    {
+        return $this->isBest();
+    }
 
 }

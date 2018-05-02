@@ -7,7 +7,7 @@
         props:['active'],
         computed:{
             classes(){
-                return ['btn',this.active ? 'btn-primary' : 'btn-info']
+                return ['btn','btn-sm ',this.active ? 'btn-primary' : 'btn-info']
             }
         },
         methods:{

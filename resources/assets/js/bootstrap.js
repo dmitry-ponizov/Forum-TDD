@@ -1,4 +1,3 @@
-
 window._ = require('lodash');
 window.Popper = require('popper.js').default;
 
@@ -12,7 +11,8 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
-} catch (e) {}
+} catch (e) {
+}
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -26,12 +26,20 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 window.Vue = require('vue');
 
-window.Vue.prototype.authorize = function (handler) {
-    let user = window.App.user;
+let authorizations = require('./authorizations.js');
 
-    return user ? handler(user) : false
+Vue.prototype.authorize = function (...params) {
+    if (! window.App.signedIn) return false;
 
+    if (typeof params[0] === 'string') {
+        return authorizations[params[0]](params[1]);
+    }
+
+    return params[0](window.App.user);
 };
+
+Vue.prototype.signedIn = window.App.signedIn;
+
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
  * all outgoing HTTP requests automatically have it attached. This is just
@@ -48,7 +56,7 @@ if (token) {
 
 window.events = new Vue();
 
-window.flash = function (message,level = 'success') {
-    window.events.$emit('flash', {  message,level } );
+window.flash = function (message, level = 'success') {
+    window.events.$emit('flash', {message, level});
 };
 

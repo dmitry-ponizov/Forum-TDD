@@ -47,6 +47,10 @@ class RepliesController extends Controller
      */
     public function store($channelId, Thread $thread, CreatePostForm $form)
     {
+        if($this->locked){
+            return response('Thread is locked',422);
+        }
+
         return $thread->addReply([
             'body' => request('body'),
             'user_id' => auth()->id(),
@@ -87,7 +91,7 @@ class RepliesController extends Controller
     public function update(Reply $reply)
     {
         try {
-            $this->validate(request(), ['body' => 'required|spamfree']);
+            request()->validate(['body' => 'required|spamfree']);
 
             $reply->update(request(['body']));
 

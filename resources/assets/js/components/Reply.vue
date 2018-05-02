@@ -3,11 +3,11 @@
         <div class="card-header" :class="isBest ? 'bg-info' :''">
             <div class="level">
                 <h5 class="flex">
-                    <a :href="'/profiles/' + data.owner.name" v-text="data.owner.name"></a> said
+                    <a :href="'/profiles/' + reply.owner.name" v-text="reply.owner.name"></a> said
                     <span v-text="ago"></span>
                 </h5>
                 <div v-if="signedIn">
-                    <favorite :reply="data"></favorite>
+                    <favorite :reply="reply"></favorite>
                 </div>
             </div>
         </div>
@@ -25,13 +25,13 @@
             <div v-else v-html="body"></div>
         </div>
 
-        <div class="card-footer level">
-            <div  v-if="canUpdate">
+        <div class="card-footer level" v-if="authorize('owns',reply) || authorize('owns',reply.thread)">
+            <div  v-if="authorize('owns',reply)">
                 <button class="btn btn-sm mr-1" @click="editing = true">Edit</button>
                 <button class="btn btn-sm btn-danger mr-1" @click="destroy">Delete</button>
             </div>
 
-            <button class="btn btn-sm btn-default mr-1" @click="markBestReply">Best Reply?</button>
+            <button class="btn btn-sm btn-default mr-1" @click="markBestReply" v-if="authorize('owns',reply.thread)">Best Reply?</button>
         </div>
     </div>
 </template>
@@ -42,33 +42,38 @@
 
     export default {
         components: {Favorite},
-        props: ['data'],
+        props: ['reply'],
         data() {
             return {
                 editing: false,
-                body: this.data.body,
-                id:this.data.id,
-                isBest:false
+                body: this.reply.body,
+                id:this.reply.id,
+                isBest:this.reply.isBest,
+
             }
         },
         computed:{
             ago(){
-                return moment(this.data.created_at).fromNow().concat('...');
+                return moment(this.reply.created_at).fromNow().concat('...');
             },
-            signedIn(){
-                return window.App.signedIn;
-            },
-            canUpdate(){
-                return this.authorize(user => this.data.user_id == user.id);
-                // return this.data.user_id == window.App.user.id;
-            }
+
+
+        },
+        created(){
+            window.events.$on('best-reply-selected',id =>{
+                this.isBest = (id === this.id);
+            });
         },
         methods: {
             markBestReply(){
-                this.isBest = true;
+
+                axios.post('/replies/'+ this.id +'/best');
+
+                window.events.$emit('best-reply-selected',this.id);
+
             },
             update() {
-                axios.patch('/replies/' + this.data.id, {
+                axios.patch('/replies/' + this.id, {
                     body: this.body
                 }).then(response => {
 
@@ -81,9 +86,9 @@
                 flash('Updated!');
             },
             destroy() {
-                axios.delete('/replies/' + this.data.id);
+                axios.delete('/replies/' + this.id);
 
-                this.$emit('deleted',this.data.id);
+                this.$emit('deleted',this.id);
 
             }
         }

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Reply;
+use App\Thread;
+use App\Trending;
 use Illuminate\Http\Request;
 
-class BestRepliesController extends Controller
+class SearchController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -33,20 +34,27 @@ class BestRepliesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Reply $reply)
+    public function store(Request $request)
     {
-        $reply->thread->setBestReply($reply);
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Trending $trending
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function show($id)
+    public function show(Trending $trending)
     {
-        //
+        $search = request('q');
+
+        $threads = Thread::search($search)->paginate(25);
+
+        return view('threads.index',[
+            'threads'=> $threads,
+            'trending'=>$trending->get()
+        ]);
     }
 
     /**
