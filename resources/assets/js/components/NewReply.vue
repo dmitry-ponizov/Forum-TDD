@@ -1,14 +1,15 @@
-<template>
+ <template>
     <div>
         <div style="margin-top: 20px;" v-if="signIn">
             <div class="form-group">
-                    <textarea name="body"
-                              id="body"
-                              placeholder="Have something to say?"
-                              rows="5"
-                              class="form-control"
-                              required
-                              v-model="body"></textarea>
+                <wysiwyg name="body" v-model="body" placeholder="Have something to say?"></wysiwyg>
+                    <!--<textarea name="body"-->
+                              <!--id="body"-->
+                              <!--placeholder="Have something to say?"-->
+                              <!--rows="5"-->
+                              <!--class="form-control"-->
+                              <!--required-->
+                              <!--v-model="body"></textarea>-->
             </div>
             <button type="submit"
                     class="btn btn-default"

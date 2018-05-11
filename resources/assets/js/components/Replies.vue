@@ -4,7 +4,7 @@
             <reply @deleted="remove(index)" :reply="reply"></reply>
         </div>
         <paginator :dataSet="dataSet" @updated="fetch"></paginator>
-        <p v-if="$parent.locked">
+        <p v-if="$parent. locked">
             This is thread is locked.No more replies are allowed.
         </p>
 
